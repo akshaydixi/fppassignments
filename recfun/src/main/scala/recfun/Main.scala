@@ -25,19 +25,15 @@ object Main {
   /**
    * Exercise 2
    */
-  var balanceValue = 0
-
   def balance(chars: List[Char]): Boolean = {
-    if (chars.isEmpty && balanceValue == 0) {
-      true
-    } else if ((chars.isEmpty && balanceValue != 0) || balanceValue < 0) {
-      balanceValue = 0
-      false
-    } else {
-      if (chars.head == '(') balanceValue = balanceValue + 1
-      if (chars.head == ')') balanceValue = balanceValue - 1
-      balance(chars.tail)  
+    def balanceiter(chars: List[Char], balanceValue: Int): Boolean = {
+      if (chars.isEmpty && balanceValue == 0) true
+      else if ((chars.isEmpty && balanceValue != 0) | balanceValue < 0) false
+      else if (chars.head == '(') balanceiter(chars.tail, balanceValue + 1)
+      else if (chars.head == ')') balanceiter(chars.tail, balanceValue - 1)
+      else balanceiter(chars.tail, balanceValue)
     }
+    balanceiter(chars, 0)
   }
 
   /**
