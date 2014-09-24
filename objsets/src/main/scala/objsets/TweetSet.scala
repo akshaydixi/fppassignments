@@ -212,7 +212,7 @@ object Nil extends TweetList {
   def head = throw new java.util.NoSuchElementException("head of EmptyList")
   def tail = throw new java.util.NoSuchElementException("tail of EmptyList")
   def isEmpty = true
-}
+} 
 
 class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
   def isEmpty = false
@@ -222,11 +222,11 @@ class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
 object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
-  def tweetContains(tweet: Tweet, list: List): Boolean = {
-    list.reduceLeft[String] { (acc, string) => acc | tweet.contains(string) }
+  def tweetContains(tweet: Tweet, list: List[String]): String = {
+    list.reduceLeft[String] { (acc, string) => if(tweet.text.contains(string)) acc + "t" else acc + "f" }
   }
-  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(tweet: Tweet => tweetContains(tweet,google))
-  lazy val appleTweets: TweetSet = TweetReader.allTweets.filter(tweet: Tweet => tweetContains(tweet,apple))
+  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter((tweet: Tweet) => tweetContains(tweet,google).contains("t"))
+  lazy val appleTweets: TweetSet = TweetReader.allTweets.filter((tweet: Tweet) => tweetContains(tweet,apple).contains("t"))
 
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
